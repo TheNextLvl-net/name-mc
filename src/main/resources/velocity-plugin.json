@@ -1,0 +1,10 @@
+{
+    "id": "namemc",
+    "name": "TNLNameMC",
+    "version": "1.0",
+    "authors": [
+        "NonSwag"
+    ],
+    "website": "https://www.thenextlvl.net",
+    "main": "net.nonswag.tnl.namemc.NameMC"
+}
