@@ -31,6 +31,7 @@ public class NameMCCommand extends Command {
                 player.sendMessage(Component.text("§6§l3. §7Click the thumbs up icon to like"));
                 player.sendMessage(Component.text("§6§l4. §7Execute §e/namemc§7 again to verify your like\n"));
                 if (voted) player.sendMessage(Component.text("§8» §7You already liked our server"));
+                else player.sendMessage(Component.text("§8» §7The verification can take up to a minute"));
                 player.sendMessage(Component.text("§8§m" + " ".repeat(60)));
             }).start();
         } else {
