@@ -1,8 +1,8 @@
 package net.nonswag.tnl.namemc.api;
 
 import com.velocitypowered.api.proxy.Player;
-import net.nonswag.tnl.core.api.logger.Logger;
-import net.nonswag.tnl.core.api.object.Pair;
+import net.nonswag.core.api.logger.Logger;
+import net.nonswag.core.api.object.Pair;
 
 import javax.annotation.Nonnull;
 import java.io.BufferedReader;
