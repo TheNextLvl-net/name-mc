@@ -5,6 +5,6 @@
     "authors": [
         "NonSwag"
     ],
-    "website": "https://www.thenextlvl.net",
-    "main": "net.nonswag.tnl.namemc.NameMC"
+    "website": "https://thenextlvl.net",
+    "main": "net.thenextlvl.namemc.NameMC"
 }
