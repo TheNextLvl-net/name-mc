@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" name="TNLNameMC">
-    <output-path>$USER_HOME$/Desktop/Coding/PluginProjects/Plugins</output-path>
-    <root id="archive" name="TNLNameMC.jar">
-      <element id="module-output" name="TNLNameMC" />
-    </root>
-  </artifact>
-</component>
