@@ -1,10 +1,10 @@
 plugins {
     id("java")
-    id("com.github.johnrengelman.shadow") version "7.1.2"
+    id("com.github.johnrengelman.shadow") version "8.1.1"
 }
 
 group = "net.thenextlvl"
-version = "1.0.0"
+version = "1.0.2"
 
 repositories {
     mavenCentral()
@@ -13,25 +13,21 @@ repositories {
 }
 
 dependencies {
-    compileOnly("org.projectlombok:lombok:1.18.26")
-    compileOnly("net.thenextlvl.core:annotations:1.0.0")
-    compileOnly("com.velocitypowered:velocity-api:3.1.1")
+    compileOnly("org.projectlombok:lombok:1.18.28")
+    compileOnly("com.velocitypowered:velocity-api:3.2.0-SNAPSHOT")
 
     implementation("net.thenextlvl.core:i18n:1.0.8")
     implementation("net.thenextlvl.core:api:4.0.2")
 
-    annotationProcessor("org.projectlombok:lombok:1.18.26")
+    annotationProcessor("org.projectlombok:lombok:1.18.28")
+    annotationProcessor("com.velocitypowered:velocity-api:3.2.0-SNAPSHOT")
 }
 
-tasks {
-    assemble {
-        dependsOn(shadowJar)
-    }
-    shadowJar {
-        minimize()
-    }
+tasks.shadowJar {
+    minimize()
 }
 
 java {
-    toolchain.languageVersion.set(JavaLanguageVersion.of(17))
+    targetCompatibility = JavaVersion.VERSION_17
+    sourceCompatibility = JavaVersion.VERSION_17
 }
