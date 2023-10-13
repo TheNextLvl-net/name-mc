@@ -17,10 +17,8 @@ dependencies {
     compileOnly("net.thenextlvl.core:annotations:1.0.0")
     compileOnly("com.velocitypowered:velocity-api:3.1.1")
 
-    implementation("net.thenextlvl.core:api:3.1.10")
-    implementation("net.kyori:adventure-text-minimessage:4.13.1") {
-        isTransitive = false
-    }
+    implementation("net.thenextlvl.core:i18n:1.0.8")
+    implementation("net.thenextlvl.core:api:4.0.2")
 
     annotationProcessor("org.projectlombok:lombok:1.18.26")
 }
