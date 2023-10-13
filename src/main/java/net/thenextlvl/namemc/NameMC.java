@@ -1,5 +1,6 @@
 package net.thenextlvl.namemc;
 
+import com.google.inject.Inject;
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
 import com.velocitypowered.api.plugin.Plugin;
@@ -14,8 +15,8 @@ import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import net.thenextlvl.namemc.api.cache.Likes;
-import net.thenextlvl.namemc.command.LikeCommand;
 import net.thenextlvl.namemc.api.config.Config;
+import net.thenextlvl.namemc.command.LikeCommand;
 import net.thenextlvl.namemc.listener.ConnectionListener;
 import org.slf4j.Logger;
 
@@ -41,13 +42,14 @@ public class NameMC {
     private final ComponentBundle bundle;
     private final Likes cache;
 
+    @Inject
     public NameMC(ProxyServer server, Logger logger, @DataDirectory Path dataDirectory) {
         this.server = server;
         this.logger = logger;
         this.dataDirectory = dataDirectory.toFile();
         this.config = new GsonFile<>(
                 new File(dataDirectory(), "config.json"),
-                new Config("example.com", 60000)
+                new Config("example.com", "https://example.com/namemc", 60000)
         ).saveIfAbsent().getRoot();
         this.bundle = new ComponentBundle(
                 new File(dataDirectory(), "translations"),
@@ -59,7 +61,8 @@ public class NameMC {
                 .fallback(Locale.US);
         bundle().miniMessage(MiniMessage.builder().tags(TagResolver.resolver(
                 TagResolver.standard(),
-                Placeholder.component("prefix", bundle().component(Locale.US, "prefix"))
+                Placeholder.component("prefix", bundle().component(Locale.US, "prefix")),
+                Placeholder.parsed("url", config().url())
         )).build());
         this.cache = new Likes(this);
     }
