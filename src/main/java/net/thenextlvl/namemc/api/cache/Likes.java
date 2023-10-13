@@ -26,7 +26,7 @@ public class Likes extends WeakHashMap<Player, Map.Entry<Long, Boolean>> {
             var url = "https://api.namemc.com/server/"
                     + plugin.config().domain()
                     + "/likes?profile="
-                    + player.getUsername();
+                    + player.getUniqueId().toString();
             var request = HttpRequest.newBuilder(URI.create(url)).build();
             var response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
             if (response.statusCode() != 200) return false;
