@@ -1,4 +1,4 @@
-package net.thenextlvl.namemc.util;
+package net.thenextlvl.namemc.api.config;
 
 public record Config(
         String domain,
