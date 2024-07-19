@@ -2,6 +2,10 @@ plugins {
     id("java")
     id("io.github.goooler.shadow") version "8.1.8"
 }
+
+java {
+    targetCompatibility = JavaVersion.VERSION_21
+    sourceCompatibility = JavaVersion.VERSION_21
 }
 
 group = "net.thenextlvl"
@@ -26,9 +30,4 @@ dependencies {
 
 tasks.shadowJar {
     minimize()
-}
-
-java {
-    targetCompatibility = JavaVersion.VERSION_17
-    sourceCompatibility = JavaVersion.VERSION_17
 }
