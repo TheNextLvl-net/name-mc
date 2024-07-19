@@ -11,7 +11,6 @@ public class LikeCommand implements SimpleCommand {
 
     @Override
     public void execute(Invocation invocation) {
-        var source = invocation.source();
         if (!(invocation.source() instanceof Player player))
             plugin.bundle().sendMessage(invocation.source(), "command.sender");
         else new Thread(() -> {
