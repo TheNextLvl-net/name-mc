@@ -18,14 +18,14 @@ repositories {
 }
 
 dependencies {
-    compileOnly("org.projectlombok:lombok:1.18.28")
-    compileOnly("com.velocitypowered:velocity-api:3.2.0-SNAPSHOT")
+    compileOnly("org.projectlombok:lombok:1.18.34")
+    compileOnly("com.velocitypowered:velocity-api:3.3.0-SNAPSHOT")
 
-    implementation("net.thenextlvl.core:i18n:1.0.8")
     implementation("net.thenextlvl.core:api:4.0.2")
+    implementation("net.thenextlvl.core:i18n:1.0.19")
 
-    annotationProcessor("org.projectlombok:lombok:1.18.28")
-    annotationProcessor("com.velocitypowered:velocity-api:3.2.0-SNAPSHOT")
+    annotationProcessor("org.projectlombok:lombok:1.18.34")
+    annotationProcessor("com.velocitypowered:velocity-api:3.3.0-SNAPSHOT")
 }
 
 tasks.shadowJar {
