@@ -7,8 +7,9 @@ import com.velocitypowered.api.plugin.Plugin;
 import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.ProxyServer;
-import core.api.file.format.GsonFile;
+import core.file.format.GsonFile;
 import core.i18n.file.ComponentBundle;
+import core.io.IO;
 import lombok.Getter;
 import lombok.experimental.Accessors;
 import net.kyori.adventure.text.minimessage.MiniMessage;
@@ -48,7 +49,7 @@ public class NameMC {
         this.logger = logger;
         this.dataDirectory = dataDirectory.toFile();
         this.config = new GsonFile<>(
-                new File(dataDirectory(), "config.json"),
+                IO.of(dataDirectory(), "config.json"),
                 new Config("example.com", "https://example.com/namemc", 60000)
         ).saveIfAbsent().getRoot();
         this.bundle = new ComponentBundle(
@@ -58,12 +59,11 @@ public class NameMC {
                         : Locale.US)
                 .register("namemc", Locale.US)
                 .register("namemc_german", Locale.GERMANY)
-                .fallback(Locale.US);
-        bundle().miniMessage(MiniMessage.builder().tags(TagResolver.resolver(
-                TagResolver.standard(),
-                Placeholder.component("prefix", bundle().component(Locale.US, "prefix")),
-                Placeholder.parsed("url", config().url())
-        )).build());
+                .miniMessage(bundle -> MiniMessage.builder().tags(TagResolver.resolver(
+                        TagResolver.standard(),
+                        Placeholder.parsed("url", config().url()),
+                        Placeholder.component("prefix", bundle.component(Locale.US, "prefix"))
+                )).build());
         this.cache = new Likes(this);
     }
 
