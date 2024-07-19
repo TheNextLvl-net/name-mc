@@ -10,6 +10,8 @@ java {
 
 group = "net.thenextlvl"
 version = "1.0.2"
+group = "net.thenextlvl.namemc"
+version = "1.0.3"
 
 repositories {
     mavenCentral()
