@@ -10,8 +10,6 @@ import com.velocitypowered.api.proxy.ProxyServer;
 import core.file.format.GsonFile;
 import core.i18n.file.ComponentBundle;
 import core.io.IO;
-import lombok.Getter;
-import lombok.experimental.Accessors;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
@@ -19,13 +17,13 @@ import net.thenextlvl.namemc.api.cache.Likes;
 import net.thenextlvl.namemc.api.config.Config;
 import net.thenextlvl.namemc.command.LikeCommand;
 import net.thenextlvl.namemc.listener.ConnectionListener;
+import org.jspecify.annotations.NullMarked;
 import org.slf4j.Logger;
 
 import java.io.File;
 import java.nio.file.Path;
 import java.util.Locale;
 
-@Getter
 @Plugin(
         id = "namemc",
         name = "NameMC",
@@ -33,11 +31,10 @@ import java.util.Locale;
         authors = "NonSwag",
         url = "https://thenextlvl.net"
 )
-@Accessors(fluent = true)
+@NullMarked
 public class NameMC {
     private final ProxyServer server;
     private final Logger logger;
-    private final File dataDirectory;
 
     private final Config config;
     private final ComponentBundle bundle;
@@ -47,13 +44,13 @@ public class NameMC {
     public NameMC(ProxyServer server, Logger logger, @DataDirectory Path dataDirectory) {
         this.server = server;
         this.logger = logger;
-        this.dataDirectory = dataDirectory.toFile();
+        var dir = dataDirectory.toFile();
         this.config = new GsonFile<>(
-                IO.of(dataDirectory(), "config.json"),
+                IO.of(dir, "config.json"),
                 new Config("example.com", "https://example.com/namemc", 60000)
         ).saveIfAbsent().getRoot();
         this.bundle = new ComponentBundle(
-                new File(dataDirectory(), "translations"),
+                new File(dir, "translations"),
                 audience -> audience instanceof Player player
                         ? player.getPlayerSettings().getLocale()
                         : Locale.US)
@@ -61,7 +58,7 @@ public class NameMC {
                 .register("namemc_german", Locale.GERMANY)
                 .miniMessage(bundle -> MiniMessage.builder().tags(TagResolver.resolver(
                         TagResolver.standard(),
-                        Placeholder.parsed("url", config().url()),
+                        Placeholder.parsed("url", config.url()),
                         Placeholder.component("prefix", bundle.component(Locale.US, "prefix"))
                 )).build());
         this.cache = new Likes(this);
@@ -69,7 +66,24 @@ public class NameMC {
 
     @Subscribe
     public void onProxyInitialize(ProxyInitializeEvent event) {
-        server().getEventManager().register(this, new ConnectionListener(this));
-        server().getCommandManager().register("namemc", new LikeCommand(this), "like");
+        server.getEventManager().register(this, new ConnectionListener(this));
+        var meta = server.getCommandManager().metaBuilder("like").plugin(this).build();
+        server.getCommandManager().register(meta, LikeCommand.create(this));
+    }
+
+    public ComponentBundle bundle() {
+        return bundle;
+    }
+
+    public Config config() {
+        return config;
+    }
+
+    public Likes cache() {
+        return cache;
+    }
+
+    public Logger logger() {
+        return logger;
     }
 }

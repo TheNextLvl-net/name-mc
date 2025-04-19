@@ -2,12 +2,16 @@ package net.thenextlvl.namemc.listener;
 
 import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.connection.DisconnectEvent;
-import lombok.RequiredArgsConstructor;
 import net.thenextlvl.namemc.NameMC;
+import org.jspecify.annotations.NullMarked;
 
-@RequiredArgsConstructor
+@NullMarked
 public class ConnectionListener {
     private final NameMC plugin;
+
+    public ConnectionListener(NameMC plugin) {
+        this.plugin = plugin;
+    }
 
     @Subscribe
     public void onDisconnect(DisconnectEvent event) {
