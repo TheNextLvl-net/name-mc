@@ -23,7 +23,7 @@ repositories {
 dependencies {
     compileOnly("com.velocitypowered:velocity-api:3.4.0-SNAPSHOT")
 
-    implementation("net.thenextlvl.core:i18n:1.0.21")
+    implementation("net.thenextlvl.core:i18n:2.3.0")
     implementation("net.thenextlvl.core:files:2.0.3")
 
     annotationProcessor("com.velocitypowered:velocity-api:3.4.0-SNAPSHOT")
