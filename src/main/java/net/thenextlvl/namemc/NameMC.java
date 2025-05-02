@@ -5,11 +5,11 @@ import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
 import com.velocitypowered.api.plugin.Plugin;
 import com.velocitypowered.api.plugin.annotation.DataDirectory;
-import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.ProxyServer;
 import core.file.format.GsonFile;
 import core.i18n.file.ComponentBundle;
 import core.io.IO;
+import net.kyori.adventure.key.Key;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
@@ -20,7 +20,6 @@ import net.thenextlvl.namemc.listener.ConnectionListener;
 import org.jspecify.annotations.NullMarked;
 import org.slf4j.Logger;
 
-import java.io.File;
 import java.nio.file.Path;
 import java.util.Locale;
 
@@ -49,18 +48,16 @@ public class NameMC {
                 IO.of(dir, "config.json"),
                 new Config("example.com", "https://example.com/namemc", 60000)
         ).saveIfAbsent().getRoot();
-        this.bundle = new ComponentBundle(
-                new File(dir, "translations"),
-                audience -> audience instanceof Player player
-                        ? player.getPlayerSettings().getLocale()
-                        : Locale.US)
-                .register("namemc", Locale.US)
-                .register("namemc_german", Locale.GERMANY)
-                .miniMessage(bundle -> MiniMessage.builder().tags(TagResolver.resolver(
+        var key = Key.key("namemc", "translations");
+        var translations = dataDirectory.resolve("translations");
+        this.bundle = ComponentBundle.builder(key, translations)
+                .placeholder("prefix", "prefix")
+                .resource("namemc.properties", Locale.US)
+                .resource("namemc_german.properties", Locale.GERMANY)
+                .miniMessage(MiniMessage.builder().tags(TagResolver.resolver(
                         TagResolver.standard(),
-                        Placeholder.parsed("url", config.url()),
-                        Placeholder.component("prefix", bundle.component(Locale.US, "prefix"))
-                )).build());
+                        Placeholder.parsed("url", config.url())
+                )).build()).build();
         this.cache = new Likes(this);
     }
 
