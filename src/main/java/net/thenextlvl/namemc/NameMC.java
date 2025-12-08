@@ -6,8 +6,7 @@ import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
 import com.velocitypowered.api.plugin.Plugin;
 import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.ProxyServer;
-import core.file.format.GsonFile;
-import core.io.IO;
+import core.file.formats.GsonFile;
 import net.kyori.adventure.key.Key;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
@@ -43,9 +42,8 @@ public class NameMC {
     public NameMC(ProxyServer server, Logger logger, @DataDirectory Path dataDirectory) {
         this.server = server;
         this.logger = logger;
-        var dir = dataDirectory.toFile();
         this.config = new GsonFile<>(
-                IO.of(dir, "config.json"),
+                dataDirectory.resolve("config.json"),
                 new Config("example.com", "https://example.com/namemc", 60000)
         ).saveIfAbsent().getRoot();
         var key = Key.key("namemc", "translations");
